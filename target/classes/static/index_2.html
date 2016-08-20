@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Statics</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="styleSheet" href="css/bootstrap.min.css" type="text/css" media="screen">
+    <link rel="styleSheet" href="css/style.css" type="text/css" media="screen">
+
+    <script src="js/jquery-3.1.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="bower_components/adapter.js/adapter.js"></script>
+    <script src="./js/conferenceroom.js"></script>
+    <script src="./js/participant.js"></script>
+    <script src="./js/kurento-utils.js"></script>
+    <script src="js/jquery-3.1.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/ng-websocket.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/main.js"></script>
+</head>
+<body ng-app="admin">
+    <div class="container">
+        <table class="table" ng-controller="tableStatics" ng-init="init();">
+            <tr>
+                <th>#</th>
+                <th>Room name</th>
+                <th>Number of participant</th>
+            </tr>
+            <tr ng-repeat="room in rooms" ng-show="rooms.length > 0">
+                <td>{{room.numer}}</td>
+                <td>{{room.name}}</td>
+                <td>{{room.numberOfParticipant}}</td>
+            </tr>
+            <tr>Number of rooms: {{rooms.length}}</tr>
+            <tr>Number of participants: {{rooms.allParticipants}}</tr>
+        </table>
+    </div>
+</body>
+</html>
