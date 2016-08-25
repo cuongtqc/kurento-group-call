@@ -61,6 +61,8 @@ public class RoomManager {
     if (room == null) {
       log.debug("Room {} not existent. Will create now!", roomName);
       room = new Room(roomName, kurento.createMediaPipeline());
+
+      Room.totalRoom += 1;
       rooms.put(roomName, room);
     }
     log.debug("Room {} found!", roomName);
@@ -76,6 +78,7 @@ public class RoomManager {
   public void removeRoom(Room room) {
     this.rooms.remove(room.getName());
     room.close();
+    Room.totalRoom -= 1;
     log.info("Room {} removed and closed", room.getName());
   }
 

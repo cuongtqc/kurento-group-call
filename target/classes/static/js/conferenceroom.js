@@ -60,7 +60,7 @@ function register() {
 
 	document.getElementById('room-header').innerText = 'ROOM ' + room;
 	document.getElementById('room').style.display = 'block';
-
+	document.getElementById('join').style.display = 'none';
 	var message = {
 		id : 'joinRoom',
 		name : name,

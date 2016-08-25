@@ -31,6 +31,10 @@
 	}
 }
 
+table {
+	border: 1px solid black;
+}
+
 #container {
 	margin: 20px auto;
 }
