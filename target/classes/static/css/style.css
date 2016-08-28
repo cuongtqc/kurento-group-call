@@ -21,6 +21,10 @@
 	By: Cuong.Tran
 */
 
+#numberOfUser {
+	margin: 10px 0px;
+}
+
 @media screen and (max-width: 680px) {
 	#open-menu {
 		display: inline-block !important;

@@ -14,8 +14,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             })
                 .success(function(data){
                     console.log('okey data = ',data);
-                    //$('.rooms-list').remove();
-                    var temp = angular.fromJson(data+'');
+                    $('.rooms-list').remove();
+                    var temp = JSON.parse(data);
                     for ( var i = 0; i <  temp.length; i++){
                         $scope.rooms[i] = {};
                         $scope.rooms[i].numer = i+1;

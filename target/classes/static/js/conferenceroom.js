@@ -23,8 +23,10 @@ window.onbeforeunload = function() {
 	ws.close();
 };
 
-ws.onmessage = function(message) {
+setInterval(function(){
 	$('#numberOfUser').html(''+$('[id*="video-"]').length+' User online');
+}, 500);
+ws.onmessage = function(message) {
 	var parsedMessage = JSON.parse(message.data);
 	console.info('Received message: ' + message.data);
 
@@ -112,7 +114,7 @@ function onExistingParticipants(msg) {
 		audio : true,
 		video : {
 			mandatory : {
-				maxWidth : 720,
+				maxWidth : 320,
 				maxFrameRate : 20,
 				minFrameRate : 20
 			}
