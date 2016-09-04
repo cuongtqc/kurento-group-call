@@ -4,6 +4,8 @@
 document.addEventListener("DOMContentLoaded", function(event) {
     var app = angular.module('admin', ['ngWebsocket']);
 
+
+
     app.controller("tableStatics", function($scope, $http, $websocket){
         $scope.rooms = [];
         $scope.allParticipants = 0;

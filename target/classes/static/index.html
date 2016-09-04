@@ -10,11 +10,13 @@
 	<script src="./js/conferenceroom.js"></script>
 	<script src="./js/participant.js"></script>
 	<script src="js/utils.js"></script>
+	<script src="js/socket.io-1.4.5.js"></script>
+	<script src="js/callstats.min.js"></script>
 </head>
 <body>
 	<!-- Navigation bar -->
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container">
+		<div class="container" style="display:none">
 			<div class=" col-xs-1 col-md-1 col-sm-1 navbar-brand">
 				<img src="img/logo.png" alt="Logo">
 			</div>
@@ -116,8 +118,6 @@
 			<div id="room" style="display: none;">
 				<h2 id="room-header"></h2>
 				<div id="participants"></div>
-				<input class="btn btn-default" type="button" id="button-leave" onmouseup="leaveRoom();"
-					value="Leave room">
 			</div>
 		</div>
 	</div>

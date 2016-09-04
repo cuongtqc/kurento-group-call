@@ -8,14 +8,16 @@
 
     <script src="js/bootstrap.min.js"></script>
     <script src="bower_components/adapter.js/adapter.js"></script>
-    <script src="./js/conferenceroom.js"></script>
+    <script src="js/socket.io-1.4.5.js"></script>
+    <script src="js/callstats.min.js"></script>
     <script src="./js/participant.js"></script>
+    <script src="./js/conferenceroom.js"></script>
     <script src="js/utils.js"></script>
 </head>
 <body>
 <!-- Navigation bar -->
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
+    <div class="container" style="display: none">
         <div class=" col-xs-1 col-md-1 col-sm-1 navbar-brand">
             <img src="img/logo.png" alt="Logo">
         </div>
@@ -100,6 +102,38 @@
         <script>
             $(document).ready(function(){
                 autoRegister();
+                setInterval(function(){
+                    $('#numberOfUser').html(''+$('[id*="video-"]').length+' User online');
+                }, 500);
+                var callstats = new callstats(null,io);
+                var AppID     = "948990113";
+                var AppSecret = callstats.appSecretTokenGenerator();
+                var localUserId = callstats.localUserIDObject;
+                function csInitCallback(csError, csErrMsg) {
+                    console.log("Status: errCode= " + csError + " errMsg= " + csErrMsg );
+                }
+                var reportType = {
+                    inbound: 'inbound',
+                    outbound: 'outbound'
+                };
+
+                // callback function to receive the stats
+                var csStatsCallback = function (stats) {
+                    var ssrc;
+                    for (ssrc in stats.streams) {
+                        console.log("SSRC is: ", ssrc);
+                        var dataSsrc = stats.streams[ssrc];
+                        console.log("SSRC Type ", dataSsrc.reportType);
+                        if (dataSsrc.reportType === reportType.outbound) {
+                            console.log("RTT is: ", dataSsrc.rtt);
+                        } else if (dataSsrc.reportType === reportType.inbound) {
+                            console.log("Inbound loss rate is: ", dataSsrc.fractionLoss);
+                        }
+                    }
+                };
+                console.log("=======AppID:"+ AppID + "====AppSecret:"+ AppSecret + "====Local:"+ localUserId);
+                callstats.initialize(AppID, AppSecret, localUserId, csInitCallback, csStatsCallback);
+
             });
         </script>
         <div id="room">
@@ -108,8 +142,6 @@
             </div>
             <h2 id="room-header"></h2>
             <div id="participants"></div>
-            <input class="btn btn-default" type="button" id="button-leave" onmouseup="leaveRoom();"
-                   value="Leave room">
         </div>
     </div>
 </div>
