@@ -14,7 +14,7 @@
         require('kurento-browser-extensions');
     } catch (error) {
         if (typeof getScreenConstraints === 'undefined') {
-            console.warn('screen sharing is not available');
+            //console.warn('screen sharing is not available');
             getScreenConstraints = function getScreenConstraints(sendSource, callback) {
                 callback(new Error('This library is not enabled for screen sharing'));
             };
@@ -32,7 +32,7 @@
     var browser = parser.getBrowser();
     var usePlanB = false;
     if (browser.name === 'Chrome' || browser.name === 'Chromium') {
-        console.log(browser.name + ': using SDP PlanB');
+        //console.log(browser.name + ': using SDP PlanB');
         usePlanB = true;
     }
     function noop(error) {
@@ -274,17 +274,17 @@
                 optional: [{ DtlsSrtpKeyAgreement: true }]
             };
             var constraints = recursive(browserDependantConstraints, connectionConstraints);
-            console.log('constraints: ' + JSON.stringify(constraints));
+            //console.log('constraints: ' + JSON.stringify(constraints));
             pc.createOffer(constraints).then(function (offer) {
-                console.log('Created SDP offer');
+                //console.log('Created SDP offer');
                 offer = mangleSdpToAddSimulcast(offer);
                 return pc.setLocalDescription(offer);
             }).then(function () {
                 var localDescription = pc.localDescription;
-                console.log('Local description set', localDescription.sdp);
+                //console.log('Local description set', localDescription.sdp);
                 if (multistream && usePlanB) {
                     localDescription = interop.toUnifiedPlan(localDescription);
-                    console.log('offer::origPlanB->UnifiedPlan', dumpSDP(localDescription));
+                    //console.log('offer::origPlanB->UnifiedPlan', dumpSDP(localDescription));
                 }
                 callback(null, localDescription.sdp, self.processAnswer.bind(self));
             }).catch(callback);
@@ -302,7 +302,7 @@
                 remoteVideo.pause();
                 remoteVideo.src = url;
                 remoteVideo.load();
-                console.log('Remote URL:', url);
+                //console.log('Remote URL:', url);
             }
         }
         this.showLocalVideo = function () {
@@ -313,7 +313,7 @@
             if (dataChannel && dataChannel.readyState === 'open') {
                 dataChannel.send(data);
             } else {
-                console.warn('Trying to send data over a non-existing or closed data channel');
+                //console.warn('Trying to send data over a non-existing or closed data channel');
             }
         };
         this.processAnswer = function (sdpAnswer, callback) {
@@ -324,10 +324,10 @@
             });
             if (multistream && usePlanB) {
                 var planBAnswer = interop.toPlanB(answer);
-                console.log('asnwer::planB', dumpSDP(planBAnswer));
+                //console.log('asnwer::planB', dumpSDP(planBAnswer));
                 answer = planBAnswer;
             }
-            console.log('SDP answer received, setting remote description');
+            //console.log('SDP answer received, setting remote description');
             if (pc.signalingState === 'closed') {
                 return callback('PeerConnection is closed');
             }
@@ -344,10 +344,10 @@
             });
             if (multistream && usePlanB) {
                 var planBOffer = interop.toPlanB(offer);
-                console.log('offer::planB', dumpSDP(planBOffer));
+                //console.log('offer::planB', dumpSDP(planBOffer));
                 offer = planBOffer;
             }
-            console.log('SDP offer received, setting remote description');
+            //console.log('SDP offer received, setting remote description');
             if (pc.signalingState === 'closed') {
                 return callback('PeerConnection is closed');
             }
@@ -357,28 +357,28 @@
                 return pc.createAnswer();
             }).then(function (answer) {
                 answer = mangleSdpToAddSimulcast(answer);
-                console.log('Created SDP answer');
+                //console.log('Created SDP answer');
                 return pc.setLocalDescription(answer);
             }).then(function () {
                 var localDescription = pc.localDescription;
                 if (multistream && usePlanB) {
                     localDescription = interop.toUnifiedPlan(localDescription);
-                    console.log('answer::origPlanB->UnifiedPlan', dumpSDP(localDescription));
+                    //console.log('answer::origPlanB->UnifiedPlan', dumpSDP(localDescription));
                 }
-                console.log('Local description set', localDescription.sdp);
+                //console.log('Local description set', localDescription.sdp);
                 callback(null, localDescription.sdp);
             }).catch(callback);
         };
         function mangleSdpToAddSimulcast(answer) {
             if (simulcast) {
                 if (browser.name === 'Chrome' || browser.name === 'Chromium') {
-                    console.log('Adding multicast info');
+                    //console.log('Adding multicast info');
                     answer = new RTCSessionDescription({
                         'type': answer.type,
                         'sdp': removeFIDFromOffer(answer.sdp) + getSimulcastInfo(videoStream)
                     });
                 } else {
-                    console.warn('Simulcast is only available in Chrome browser.');
+                    //console.warn('Simulcast is only available in Chrome browser.');
                 }
             }
             return answer;
@@ -502,7 +502,7 @@
         }
     };
     WebRtcPeer.prototype.dispose = function () {
-        console.log('Disposing WebRtcPeer');
+        //console.log('Disposing WebRtcPeer');
         var pc = this.peerConnection;
         var dc = this.dataChannel;
         try {
@@ -518,7 +518,7 @@
                 pc.close();
             }
         } catch (err) {
-            console.warn('Exception disposing webrtc peer ' + err);
+            //console.warn('Exception disposing webrtc peer ' + err);
         }
         this.emit('_dispose');
     };
@@ -691,13 +691,13 @@
 
             if (m && m > 0 && this._events[type].length > m) {
                 this._events[type].warned = true;
-                console.error('(node) warning: possible EventEmitter memory ' +
+                /*console.error('(node) warning: possible EventEmitter memory ' +
                     'leak detected. %d listeners added. ' +
                     'Use emitter.setMaxListeners() to increase limit.',
-                    this._events[type].length);
+                    this._events[type].length);*/
                 if (typeof console.trace === 'function') {
                     // not supported in IE 10
-                    console.trace();
+                    //console.trace();
                 }
             }
         }
@@ -2034,7 +2034,7 @@
 
         if (typeof desc !== 'object' || desc === null ||
             typeof desc.sdp !== 'string') {
-            console.warn('An empty description was passed as an argument.');
+            //console.warn('An empty description was passed as an argument.');
             return desc;
         }
 
@@ -2044,7 +2044,7 @@
         // If the SDP contains no media, there's nothing to transform.
         if (typeof session.media === 'undefined' ||
             !Array.isArray(session.media) || session.media.length === 0) {
-            console.warn('The description has no media.');
+            //console.warn('The description has no media.');
             return desc;
         }
 
@@ -2053,7 +2053,7 @@
         if (session.media.length <= 3 && session.media.every(function(m) {
                 return ['video', 'audio', 'data'].indexOf(m.mid) !== -1;
             })) {
-            console.warn('This description does not look like Unified Plan.');
+            //console.warn('This description does not look like Unified Plan.');
             return desc;
         }
 
@@ -2236,7 +2236,7 @@
 
         if (typeof desc !== 'object' || desc === null ||
             typeof desc.sdp !== 'string') {
-            console.warn('An empty description was passed as an argument.');
+            //.warn('An empty description was passed as an argument.');
             return desc;
         }
 
@@ -2245,7 +2245,7 @@
         // If the SDP contains no media, there's nothing to transform.
         if (typeof session.media === 'undefined' ||
             !Array.isArray(session.media) || session.media.length === 0) {
-            console.warn('The description has no media.');
+            //console.warn('The description has no media.');
             return desc;
         }
 
@@ -2254,7 +2254,7 @@
         if (session.media.length > 3 || !session.media.every(function(m) {
                 return ['video', 'audio', 'data'].indexOf(m.mid) !== -1;
             })) {
-            console.warn('This description does not look like Plan B.');
+            //console.warn('This description does not look like Plan B.');
             return desc;
         }
 
@@ -2755,7 +2755,7 @@
                 var mLine = session.media[idx];
                 Object.keys(recvonlySsrcs[type]).forEach(function(ssrc) {
                     if (mLine.sources && mLine.sources[ssrc]) {
-                        console.warn("Replacing an existing SSRC.");
+                        //console.warn("Replacing an existing SSRC.");
                     }
                     if (!mLine.sources) {
                         mLine.sources = {};

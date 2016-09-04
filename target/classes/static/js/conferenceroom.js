@@ -25,7 +25,7 @@ window.onbeforeunload = function() {
 
 ws.onmessage = function(message) {
 	var parsedMessage = JSON.parse(message.data);
-	console.info('Received message: ' + message.data);
+	//console.info('Received message: ' + message.data);
 
 	switch (parsedMessage.id) {
 	case 'existingParticipants':
@@ -43,13 +43,13 @@ ws.onmessage = function(message) {
 	case 'iceCandidate':
 		participants[parsedMessage.name].rtcPeer.addIceCandidate(parsedMessage.candidate, function (error) {
 	        if (error) {
-		      console.error("Error adding candidate: " + error);
+		      //console.error("Error adding candidate: " + error);
 		      return;
 	        }
 	    });
 	    break;
 	default:
-		console.error('Unrecognized message', parsedMessage);
+		//console.error('Unrecognized message', parsedMessage);
 	}
 }
 
@@ -88,17 +88,17 @@ function onNewParticipant(request) {
 
 function receiveVideoResponse(result) {
 	participants[result.name].rtcPeer.processAnswer (result.sdpAnswer, function (error) {
-		if (error) return console.error (error);
+		if (error) return //console.error (error);
 	});
 }
 
 function callResponse(message) {
 	if (message.response != 'accepted') {
-		console.info('Call not accepted by peer. Closing call');
+		//console.info('Call not accepted by peer. Closing call');
 		stop();
 	} else {
 		webRtcPeer.processAnswer(message.sdpAnswer, function (error) {
-			if (error) return console.error (error);
+			if (error) return //console.error (error);
 		});
 	}
 }
@@ -114,7 +114,7 @@ function onExistingParticipants(msg) {
 			}
 		}
 	};
-	console.log(name + " registered in room " + room);
+	//console.log(name + " registered in room " + room);
 	var participant = new Participant(name);
 	participants[name] = participant;
 	var video = participant.getVideoElement();
@@ -127,7 +127,7 @@ function onExistingParticipants(msg) {
 	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options,
 		function (error) {
 		  if(error) {
-			  return console.error(error);
+			  return //console.error(error);
 		  }
 		  this.generateOffer (participant.offerToReceiveVideo.bind(participant));
 	});
@@ -163,14 +163,14 @@ function receiveVideo(sender) {
 	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options,
 			function (error) {
 			  if(error) {
-				  return console.error(error);
+				  return //console.error(error);
 			  }
 			  this.generateOffer (participant.offerToReceiveVideo.bind(participant));
 	});;
 }
 
 function onParticipantLeft(request) {
-	console.log('Participant ' + request.name + ' left');
+	//console.log('Participant ' + request.name + ' left');
 	var participant = participants[request.name];
 	participant.dispose();
 	delete participants[request.name];
@@ -178,6 +178,6 @@ function onParticipantLeft(request) {
 
 function sendMessage(message) {
 	var jsonMessage = JSON.stringify(message);
-	console.log('Sending message: ' + jsonMessage);
+	//console.log('Sending message: ' + jsonMessage);
 	ws.send(jsonMessage);
 }
