@@ -21,6 +21,10 @@
 	By: Cuong.Tran
 */
 
+#numberOfUser {
+	margin: 10px 0px;
+}
+
 @media screen and (max-width: 680px) {
 	#open-menu {
 		display: inline-block !important;
@@ -29,6 +33,10 @@
 	.navbar > .container > a > .navbar-btn {
 		display: none !important;
 	}
+}
+
+table {
+	border: 1px solid black;
 }
 
 #container {
@@ -303,7 +311,7 @@ input[type=submit]:active {
 }
 
 .participant.main {
-	max-width: 720px;
+	max-width: 1920px;
 	width: calc(50% - 10px);
 	margin: 0 auto;
 }

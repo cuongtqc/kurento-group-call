@@ -3,6 +3,10 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/4.2.3.RELEASE/spring-context-4.2.3.RELEASE.jar!/" />
     </CLASSES>
+<<<<<<< HEAD
+=======
+    <JAVADOC />
+>>>>>>> 0523323bc0db2191c2d3b2160dd970a9df0e1acb
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/4.2.3.RELEASE/spring-context-4.2.3.RELEASE-sources.jar!/" />
     </SOURCES>

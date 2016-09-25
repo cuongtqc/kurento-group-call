@@ -53,6 +53,15 @@ public class UserSession implements Closeable {
   private final String roomName;
   private final WebRtcEndpoint outgoingMedia;
   private final ConcurrentMap<String, WebRtcEndpoint> incomingMedia = new ConcurrentHashMap<>();
+  /*
+  * Adding toString override
+  * Modified by Tran on 21/08/2016
+  * */
+
+  public String toString(){
+    String object = "{username:'"+ this.name +"', room: '"+ this.roomName +"'}";
+    return object;
+  }
 
   public UserSession(final String name, String roomName, final WebSocketSession session,
       MediaPipeline pipeline) {

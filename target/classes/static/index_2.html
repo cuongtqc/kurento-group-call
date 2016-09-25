@@ -7,33 +7,45 @@
     <link rel="styleSheet" href="css/bootstrap.min.css" type="text/css" media="screen">
     <link rel="styleSheet" href="css/style.css" type="text/css" media="screen">
 
-    <script src="js/jquery-3.1.0.min.js"></script>
+    <!--<script src="js/jquery-3.1.0.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="bower_components/adapter.js/adapter.js"></script>
     <script src="./js/conferenceroom.js"></script>
     <script src="./js/participant.js"></script>
-    <script src="./js/kurento-utils.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/jquery-3.1.0.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/ng-websocket.js"></script>
     <script src="js/angular.min.js"></script>
+    <script src="js/ng-websocket.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/socket.io-1.4.5.js"></script>
+    <script src="js/callstats.min.js"></script>-->
+    <script src="js/angular.min.js"></script>
+    <script src="js/all.min.js"></script>
 </head>
 <body ng-app="admin">
     <div class="container">
-        <table class="table" ng-controller="tableStatics" ng-init="init();">
-            <tr>
-                <th>#</th>
-                <th>Room name</th>
-                <th>Number of participant</th>
+        <table class="table" ng-controller="tableStatics">
+            <tr id="head">
+                <td>#</td>
+                <td>Room name</td>
+                <td>Number of participant</td>
             </tr>
-            <tr ng-repeat="room in rooms" ng-show="rooms.length > 0">
+
+            <tr class="rooms-list row"  ng-repeat="room in rooms">
                 <td>{{room.numer}}</td>
-                <td>{{room.name}}</td>
-                <td>{{room.numberOfParticipant}}</td>
+                <td>{{room.roomName}}</td>
+                <td>{{room.numberOfUser}}</td>
             </tr>
-            <tr>Number of rooms: {{rooms.length}}</tr>
-            <tr>Number of participants: {{rooms.allParticipants}}</tr>
+
+            <tr class="row text-danger" ng-show="rooms===[]">
+                No room
+            </tr>
+            <tr class="row">
+                <td class="col-md-6 text-info">Number of rooms: {{rooms.length || 0}}</td>
+                <td class="col-md-6 text-info">Number of participants: {{rooms.allParticipants || 0}}</td>
+            </tr>
+
         </table>
     </div>
 </body>

@@ -19,6 +19,7 @@ package org.kurento.tutorial.groupcall;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -44,23 +45,63 @@ import com.google.gson.JsonPrimitive;
  */
 public class Room implements Closeable {
   private final Logger log = LoggerFactory.getLogger(Room.class);
-
+  public static int totalRoom = 0;
+  public  int totalUser = 1;
   private final ConcurrentMap<String, UserSession> participants = new ConcurrentHashMap<>();
   private final MediaPipeline pipeline;
   private final String name;
+  public static String baseObject = "[]";
 
   public String getName() {
     return name;
   }
 
+  /*Add function addToJsonObj
+  * Modified by Cuong.Tran on 21/08/2016
+  * */
+  public  String addToBase(String string){
+    if (baseObject.length() == 2){
+      baseObject = "[" + string + "]";
+    } else {
+      baseObject = baseObject.substring(0, baseObject.length() - 1);
+      baseObject = baseObject + "," + string + "]";
+    }
+    System.out.println("====================================={}======================="+baseObject);
+    return baseObject;
+  }
+  /*Add function RemoveJsonObj
+  * Modified by Cuong.Tran on 21/08/2016
+  * */
+  public  String removeFromBase(String string){
+    if (string != null){
+      int pos = baseObject.indexOf(string);
+        if (pos != -1){
+            while(baseObject.charAt(pos) != '{'){
+                if (baseObject.length() == 0){return "";}
+                baseObject = baseObject.substring(0, pos) + baseObject.substring(pos+1);
+            }
+            pos--;
+            while(baseObject.charAt(pos) != '}'){
+                if (baseObject.length() == 0){return "";}
+                baseObject = baseObject.substring(0, pos) + baseObject.substring(pos+1);
+                pos--;
+            }
+        }
+    }
+      System.out.println("====================================={}======================="+baseObject);
+    return baseObject;
+  }
+
   public Room(String roomName, MediaPipeline pipeline) {
     this.name = roomName;
     this.pipeline = pipeline;
+    baseObject = addToBase("{\"roomName\":\"" + this.name + "\", \"numberOfUser\":" + this.totalUser +"}");
     log.info("ROOM {} has been created", roomName);
   }
 
   @PreDestroy
   private void shutdown() {
+    removeFromBase(this.name);
     this.close();
   }
 
@@ -70,6 +111,7 @@ public class Room implements Closeable {
     joinRoom(participant);
     participants.put(participant.getName(), participant);
     sendParticipantNames(participant);
+      this.totalUser++;
     return participant;
   }
 
@@ -77,6 +119,7 @@ public class Room implements Closeable {
     log.debug("PARTICIPANT {}: Leaving room {}", user.getName(), this.name);
     this.removeParticipant(user.getName());
     user.close();
+      this.totalUser--;
   }
 
   private Collection<String> joinRoom(UserSession newParticipant) throws IOException {
@@ -96,7 +139,7 @@ public class Room implements Closeable {
       }
       participantsList.add(participant.getName());
     }
-
+    this.totalUser++;
     return participantsList;
   }
 
@@ -122,7 +165,7 @@ public class Room implements Closeable {
       log.debug("ROOM {}: The users {} could not be notified that {} left the room", this.name,
           unnotifiedParticipants, name);
     }
-
+    this.totalUser--;
   }
 
   public void sendParticipantNames(UserSession user) throws IOException {

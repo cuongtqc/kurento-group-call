@@ -7,6 +7,7 @@
 <head>
     <!-- meta character set -->
     <meta charset="utf-8">
+<<<<<<< HEAD
     <!-- Always force latest IE rendering engine or request Chrome Frame -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>Blue One Page HTML Template</title>
@@ -75,6 +76,19 @@ Fixed Navigation
                 <a href="#body">Blue</a>
             </h1>
             <!-- /logo -->
+=======
+    <link rel="styleSheet" href="css/bootstrap.min.css" type="text/css" media="screen">
+    <link rel="styleSheet" href="css/style.css" type="text/css" media="screen">
+    <script src="js/all.min.js"></script>
+
+</head>
+<body>
+<!-- Navigation bar -->
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container" style="display: none">
+        <div class=" col-xs-1 col-md-1 col-sm-1 navbar-brand">
+            <img src="img/logo.png" alt="Logo">
+>>>>>>> 0523323bc0db2191c2d3b2160dd970a9df0e1acb
         </div>
 
         <!-- main nav -->
@@ -157,9 +171,63 @@ End Fixed Navigation
                         <li class="wow animated zoomIn" data-wow-delay="1.2s"><a href="#"><i class="fa fa-youtube fa-3x"></i></a></li>
                     </ul>
                 </div>
+<<<<<<< HEAD
 
                 <p>Copyright &copy; 2014-2015 Design and Developed By<a href="http://www.themefisher.com">Themefisher</a> </p>
             </div>
+=======
+            </a>
+        </div>
+        <a id="open-menu" class="btn btn-default" data-toggle="dropdown">M</a>
+    </div>
+</div>
+<!-- Main body-->
+<div id="container" class = "container">
+    <div id="wrapper">
+        <script>
+            $(document).ready(function(){
+                autoRegister();
+                setInterval(function(){
+                    $('#numberOfUser').html(''+$('[id*="video-"]').length+' User online');
+                }, 500);
+                var callstats = new callstats(null,io);
+                var AppID     = "948990113";
+                var AppSecret = callstats.appSecretTokenGenerator();
+                var localUserId = callstats.localUserIDObject;
+                function csInitCallback(csError, csErrMsg) {
+                    console.log("Status: errCode= " + csError + " errMsg= " + csErrMsg );
+                }
+                var reportType = {
+                    inbound: 'inbound',
+                    outbound: 'outbound'
+                };
+
+                // callback function to receive the stats
+                var csStatsCallback = function (stats) {
+                    var ssrc;
+                    for (ssrc in stats.streams) {
+                        console.log("SSRC is: ", ssrc);
+                        var dataSsrc = stats.streams[ssrc];
+                        console.log("SSRC Type ", dataSsrc.reportType);
+                        if (dataSsrc.reportType === reportType.outbound) {
+                            console.log("RTT is: ", dataSsrc.rtt);
+                        } else if (dataSsrc.reportType === reportType.inbound) {
+                            console.log("Inbound loss rate is: ", dataSsrc.fractionLoss);
+                        }
+                    }
+                };
+                console.log("=======AppID:"+ AppID + "====AppSecret:"+ AppSecret + "====Local:"+ localUserId);
+                callstats.initialize(AppID, AppSecret, localUserId, csInitCallback, csStatsCallback);
+
+            });
+        </script>
+        <div id="room">
+            <div class = "row">
+                <div class="col-md-3 btn btn-primary" id="numberOfUser"></div>
+            </div>
+            <h2 id="room-header"></h2>
+            <div id="participants"></div>
+>>>>>>> 0523323bc0db2191c2d3b2160dd970a9df0e1acb
         </div>
     </div>
 </footer>
