@@ -73,8 +73,8 @@ function Participant(name) {
 	}
 
 	this.offerToReceiveVideo = function(error, offerSdp, wp){
-		if (error) return //console.error ("sdp offer error")
-		//console.log('Invoking SDP offer callback function');
+		if (error) return console.error ("sdp offer error")
+		console.log('Invoking SDP offer callback function');
 		var msg =  { id : "receiveVideoFrom",
 				sender : name,
 				sdpOffer : offerSdp
@@ -84,7 +84,7 @@ function Participant(name) {
 
 
 	this.onIceCandidate = function (candidate, wp) {
-		  //console.log("Local candidate" + JSON.stringify(candidate));
+		  console.log("Local candidate" + JSON.stringify(candidate));
 
 		  var message = {
 		    id: 'onIceCandidate',
@@ -97,7 +97,7 @@ function Participant(name) {
 	Object.defineProperty(this, 'rtcPeer', { writable: true});
 
 	this.dispose = function() {
-		//console.log('Disposing participant ' + this.name);
+		console.log('Disposing participant ' + this.name);
 		this.rtcPeer.dispose();
 		container.parentNode.removeChild(container);
 	};
