@@ -1,14 +1,4 @@
 /* ========================================================================= */
-/*	Preloader
-/* ========================================================================= */
-
-jQuery(window).load(function(){
-
-	$("#preloader").fadeOut("slow");
-
-});
-
-/* ========================================================================= */
 /*  Welcome Section Slider
 /* ========================================================================= */
 
@@ -82,6 +72,7 @@ $(function() {
 
 
 $(document).ready(function(){
+    $("#preloader").fadeOut("slow");
     /*
     * Modified by Tran
     * ==============================*/
@@ -105,12 +96,13 @@ $(document).ready(function(){
     };
 
     showForm('Login');
+
 	/* ========================================================================= */
 	/*	Menu item highlighting
 	/* ========================================================================= */
 
-	jQuery('#nav').singlePageNav({
-		offset: jQuery('#nav').outerHeight(),
+	$('#nav').singlePageNav({
+		offset: $('#nav').outerHeight(),
 		filter: ':not(.external)',
 		speed: 2000,
 		currentClass: 'current',
