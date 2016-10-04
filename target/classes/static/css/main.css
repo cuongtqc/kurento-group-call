@@ -1486,6 +1486,10 @@ textarea.form-control {
         background-color: white;
         opacity: 0.6;
     }
+    #input-form, #show-content {
+        width: 100%;
+        height: auto;
+    }
     #chat-content {
         height: calc(100% - 40px);
         width: 100%;

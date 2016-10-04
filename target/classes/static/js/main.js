@@ -125,7 +125,7 @@ $(document).ready(function(){
             console.log("Failed!")
         });
     });
-    
+
     window.onbeforeunload = function (e) {
         var ext = $('#input-file').val().split('.').pop();
         $.ajax({
