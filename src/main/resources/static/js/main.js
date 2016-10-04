@@ -80,6 +80,7 @@ $(document).ready(function(){
         var reader = new FileReader();
         console.log('File: '+ userId + ' Url: ' + locationUrl);
         var data = {};
+        var path = "";
         reader.onload = function(evt){
             data = {id:userId, content:evt.target.result};
             $.ajax({
@@ -89,6 +90,10 @@ $(document).ready(function(){
                 headers: {"Access-Control-Allow-Origin":"*", "X-Requested-With":"XMLHttpRequest"},
                 success:function(url){
                     console.log('Upload okay. ' + url);
+                    path = url;
+                    var string = '<iframe src="https://docs.google.com/gview?url='+ path +'&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe>';
+                    $('#show-content').append(string);
+                    $(self).parent().hide();
                     return url;
                 },
                 error:function(err){
@@ -118,9 +123,7 @@ $(document).ready(function(){
             }
         });
         promise.then(function(){
-            var string = '<iframe src="https://docs.google.com/gview?url='+ path +'&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe>';
-            $('#show-content').append(string);
-            $(self).parent().hide();
+
         }, function(){
             console.log("Failed!")
         });
