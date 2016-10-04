@@ -112,12 +112,15 @@ function onExistingParticipants(msg) {
 		audio : true,
 		video : {
 			mandatory : {
+				chromeMediaSource:'screen',
+				mediaSource :  'window' || 'screen',
 				maxWidth : 720,
 				maxFrameRate : 20,
 				minFrameRate : 20
 			}
 		}
 	};
+	console.log(constraints)
 	console.log(name + " registered in room " + room);
 	var participant = new Participant(name);
 	participants[name] = participant;
@@ -126,6 +129,8 @@ function onExistingParticipants(msg) {
 	var options = {
 	      localVideo: video,
 	      mediaConstraints: constraints,
+		  chromeMediaSource:'screen',
+		  sendSource : 'screen',
 	      onicecandidate: participant.onIceCandidate.bind(participant)
 	    }
 	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options,

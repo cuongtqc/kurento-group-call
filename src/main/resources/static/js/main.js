@@ -76,6 +76,73 @@ $(document).ready(function(){
     /*
     * Modified by Tran
     * ==============================*/
+    function sendFileToServer(file, userId, locationUrl) {
+        var reader = new FileReader();
+        console.log('File: '+ userId + ' Url: ' + locationUrl);
+        var data = {};
+        reader.onload = function(evt){
+            data = {id:userId, content:evt.target.result};
+            $.ajax({
+                method: "POST",
+                url: locationUrl,
+                data: data,
+                headers: {"Access-Control-Allow-Origin":"*", "X-Requested-With":"XMLHttpRequest"},
+                success:function(url){
+                    console.log('Upload okay. ' + url);
+                    return url;
+                },
+                error:function(err){
+                    console.log('Error: '+ err);
+                    return "";
+                }
+            })
+        }
+        reader.onerror = function(err){
+            console.log('Error: '+ err);
+        }
+        reader.readAsBinaryString(file);
+    }
+
+    $('#open').on('click', function(){
+        var self = this;
+        var file = $('#input-file')[0].files[0];
+        var ext = $('#input-file').val().split('.').pop();
+        console.log('ext = ' + ext);
+        var path = "";
+        var promise = new Promise(function(resolve, reject){
+            path = sendFileToServer(file, window.timestamp + '.' + ext, 'https://' + window.location.hostname + ':3000/uploadFile');
+            if (path!="") {
+                resolve("done");
+            } else {
+                reject("failed");
+            }
+        });
+        promise.then(function(){
+            var string = '<iframe src="https://docs.google.com/gview?url='+ path +'&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe>';
+            $('#show-content').append(string);
+            $(self).parent().hide();
+        }, function(){
+            console.log("Failed!")
+        });
+    });
+    
+    window.onbeforeunload = function (e) {
+        var ext = $('#input-file').val().split('.').pop();
+        $.ajax({
+            method: "POST",
+            url: 'https://' + window.location.hostname + ':3000/deleteFile',
+            data: {id: window.timestamp + '.' + ext},
+            success: function(data){
+                console.log(data);
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    };
+    /*==============================================
+        End load and delete presentation file
+    * =============================================*/
    $('#login').on('click', function(){
         showForm('Login');
     });
