@@ -65,5 +65,6 @@
     <orderEntry type="library" name="Maven: org.kurento:kms-api-elements:6.5.0" level="project" />
     <orderEntry type="library" name="Maven: org.kurento:kms-api-filters:6.5.0" level="project" />
     <orderEntry type="library" name="Maven: org.kurento:kurento-utils-js:6.5.0" level="project" />
+    <orderEntry type="library" name="socket.io-1.4.5" level="application" />
   </component>
 </module>

@@ -71,7 +71,7 @@ function register() {
 
 function autoRegister() {
 	//name = document.getElementById('name').value;
-	name = new Date().getTime();
+	name = window.timestamp;
 	//var room = document.getElementById('roomName').value;
 	var room = 'testingRoom';
 	document.getElementById('room-header').innerText = 'ROOM ' + room;

@@ -83,17 +83,16 @@ $(document).ready(function(){
         var path = "";
         reader.onload = function(evt){
             data = {id:userId, content:evt.target.result};
+            console.log(btoa(evt.target.result).length);
             $.ajax({
                 method: "POST",
                 url: locationUrl,
                 data: data,
-                headers: {"Access-Control-Allow-Origin":"*", "X-Requested-With":"XMLHttpRequest"},
                 success:function(url){
                     console.log('Upload okay. ' + url);
                     path = url;
                     var string = '<iframe src="https://docs.google.com/gview?url='+ path +'&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe>';
                     $('#show-content').append(string);
-                    $(self).parent().hide();
                     return url;
                 },
                 error:function(err){
@@ -110,6 +109,7 @@ $(document).ready(function(){
 
     $('#open').on('click', function(){
         var self = this;
+        console.log('alibaba');
         var file = $('#input-file')[0].files[0];
         var ext = $('#input-file').val().split('.').pop();
         console.log('ext = ' + ext);
@@ -123,7 +123,7 @@ $(document).ready(function(){
             }
         });
         promise.then(function(){
-
+            $(self).parent().hide();
         }, function(){
             console.log("Failed!")
         });
@@ -259,7 +259,7 @@ $(document).ready(function(){
 /* ==========  START GOOGLE MAP ========== */
 
 // When the window has finished loading create our google map below
-google.maps.event.addDomListener(window, 'load', init);
+/*google.maps.event.addDomListener(window, 'load', init);
 
 function init() {
     // Basic options for a simple Google Map
@@ -341,7 +341,7 @@ function init() {
         map: map,
 		icon: 'img/icons/map-marker.png',
     });
-}
+}*/
 
 // ========== END GOOGLE MAP ========== //
 
